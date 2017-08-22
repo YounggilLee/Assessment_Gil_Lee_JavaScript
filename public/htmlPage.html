@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -31,71 +31,37 @@
                     <td>10:22:31</td>
                     <td>10:22:31</td>
                 </tr>
-                <tr>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                </tr>
-                <tr>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                </tr>
-                <tr>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                </tr>
-                <tr>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                </tr>
-                <tr>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                </tr>
-                <tr>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                </tr>
-                <tr>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                </tr>
-                <tr>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                    <td>10:22:31</td>
-                </tr>
+               
                 </tbody>
             </table>
 
         </div>
     </div>
     <div id="text-wrapper">
-        <form  action="http://127.0.0.1:3000/httpPage/" method="post">
-           <!-- <form id="share">-->
+       <!-- <form  action="http://127.0.0.1:3000/httpPage" method="post">-->
+           <form id ='share'>
                 <textarea id="textArea" name="words" cols="30" rows="10"  placeholder="Being Typing Here..."></textarea>
-                <input type="submit" value="Share" >
-              <!--  <input type="text" value="" name="code-out" readonly>
-                <input type="button" value="Load" name="load">
-                <input type="text"  name="code-in" placeholder="CODE..">-->
-
+                <input type="submit" value="Share">
+                <input type="text" value="" name="code-out" readonly>
+                <input type="button" value="load" name="load">
+                <input type="text"  name="code-in" placeholder="code..">
+              <!--   <input type="text" name="checkTime" value="checkTime">-->
+               
         </form>
         <span id="counter">###</span>
         <span id="checkWords">###</span>
+        <span id="checkData">###</span>
+       
+        <p>
+            <span class="label">CPM</span>
+            <span id="CPM">0</span>
+        </p>
+        <p>
+            <span class="label">WPM</span>
+            <span id="WPM">0</span>
+        </p>
+
+      
     </div>
 
 </section>

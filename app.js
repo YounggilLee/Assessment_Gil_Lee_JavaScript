@@ -19,10 +19,10 @@ const db = mongojs('node', ['contents']);
 
 //Check db connection
 db.contents.find(function (error,results) {
-   console.log(results);
-    console.log(typeof(results));
+     console.log(results);
+  //  console.log(typeof(results));
 var myJson = JSON.stringify(results);
-    console.log(typeof(myJson));
+   // console.log(typeof(myJson));
 
 });
 
@@ -56,12 +56,14 @@ app.listen(PORT, function () {
 
 
 
+
+
  app.post('/httpPage', function (request, response) {
 
-    //Declare variable
-   const body = request.body;
-   console.log(body);
-   console.log(typeof (body));
+     //Declare variable
+     const body = request.body;
+  // console.log(body);
+   //console.log(typeof (body));
 
    // Handle error events
    //if(!body.id){ return response.send('send id '); }
@@ -69,8 +71,10 @@ app.listen(PORT, function () {
 
    // Get value
    //const id = body.id;
-     const contents = body.words;
-     console.log(contents);
+   const contents = body.words;
+   const times = body.checkTime;
+   console.log(times);
+    // console.log(contents);
 
      // Word count
      const temp = contents.split(' ');
@@ -102,17 +106,34 @@ app.listen(PORT, function () {
          }
      }
 
+   //Current Time
+     var currentTime = new Date();
+     var saveTime = currentTime.getHours() + ":" + currentTime.getMinutes() + ":" + currentTime.getSeconds();
 
+     var wordPer;
    // Save data
    db.contents.save({
-       wordcount: countWord,
+       time : saveTime,
+       wordNumber: countWord,
+       wordPerMin: times,
        wordCompare: compare,
        content: contents
    },  function (error, result) {
-       response.send(error || result);
+
+      /* $jSONerror = null;
+
+       echo json_encode(array('errormsg' => $jSONerror, 'results' => result));*/
+       if(error){
+           response.send(error);
+       }else {
+           var myJson = JSON.stringify(result);
+           response.send(myJson);
+          
+       }
+
    });
 
-  /*   db.contents.find(function (error,results) {
+/*     db.contents.find(function (error,results) {
          var myJson = JSON.stringify(results);
          response.send(myJson);
      });*/
@@ -129,7 +150,9 @@ app.listen(PORT, function () {
        if(error){
            response.send('Error');
        } else {
+           console.log(result.toString('utf8'));
            response.send(result);
+
        }
     });
 });
