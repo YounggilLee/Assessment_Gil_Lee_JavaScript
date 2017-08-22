@@ -25,12 +25,53 @@
 
 //});
 
+//window.onload=function () {
+//    setInterval(function () {
+//        var e = window.event;
+//        x = e.screenX;
+//        y = e.screenY;
+//        console.log(x + y);
+//    }, 1000);
+
+   
+var mousePos;
+var xPosion = [];
+var yPosion = [];
+document.onmousemove = handleMouseMove;
+//setInterval(getMousePosition, 500); // setInterval repeats every X ms
+
+function handleMouseMove(event) {
+    var dot, eventDoc, doc, body, pageX, pageY;
+
+    event = event || window.event; // IE-ism
+
+    mousePos = {
+        x: event.pageX,
+        y: event.pageY
+    };
+}
+function getMousePosition() {
+    var pos = mousePos;
+    if (!pos) {
+        // We haven't seen any movement yet
+    }
+    else {
+       
+        xPosion.push(pos.x);
+        yPosion.push(pos.y);
+        // Use pos.x and pos.y       
+        console.log(xPosion + "-------------" +  yPosion);
+    }
+}
+
+
+
 var timer = 0;
-var checkTimer = 0;
+var checkInputTimer = 0;
 var secInrease;
 var checkWordTime;
 var submitContents;
-//var reciveData;
+var reciveCode;
 
 //
 $(document).ready(function () {
@@ -90,14 +131,16 @@ $(document).ready(function () {
         //  return result;
     });
 
+  
 
     
 
     $('#textArea').on('keyup', function () {
-        console.log('key test!!!!!')
+        console.log('key start!!!!!')
         timer = 0;
         clearInterval(secInrease);
         setTimer();
+        checkTimer();
     });
 
   
@@ -105,13 +148,16 @@ $(document).ready(function () {
     $('#share').submit(function (e) {
 
               clearInterval(secInrease);
-
+              clearInterval(checkWordTime);
             e.preventDefault();
             var contentData = $('#textArea').val();
 
             $.ajax({
                 type: 'POST',
-                data: { 'words': contentData },
+                data: {
+                    'words': contentData,
+                    'endTime': checkInputTimer
+                },
                 url: '/httpPage',
                 success: function (dbData) {
                     console.log(dbData);
@@ -139,13 +185,16 @@ function setTimer() {
         console.log(timer);
         if (timer >= 5) {
             clearInterval(secInrease);
+            clearInterval(checkWordTime);
 
             var contentData = $('#textArea').val();
            
             $.ajax({
-                type: 'POST',
-                //dataType: 'json',
-               data: { 'words': contentData},
+                type: 'POST',               
+                data: {
+                    'words': contentData,
+                    'endTime': checkInputTimer
+                },
 
                 url: '/httpPage',
                 success: function (dbData) {
@@ -168,11 +217,10 @@ function setTimer() {
 function checkTimer() {
 
     checkWordTime = setInterval(function () {
-        checkTimer += 1;        
+        checkInputTimer += 1;
 
     }, 1000);
 }
-
 
 function getCode(data) {
     checkTimer = 0;
@@ -182,6 +230,27 @@ function getCode(data) {
     $('input[name="code-out"]').val(jsonData._id);
 
 }
+
+$("#load").click(function () {
+
+
+    console.log("load==>"+$('input[name="code-in"]').val());
+    $.ajax({
+        type: 'GET',
+        data: {
+            'codeIn': $('input[name="code-in"]').val()           
+        },
+        url: '/httpPage',
+        success: function (dbData) {
+            console.log(dbData);          
+        },
+        error: function (error) {
+            console.log(error);
+        }
+
+    });
+});
+
 
 function getCurretData() {
 
@@ -209,10 +278,13 @@ function getCurretData() {
                     this.time +
                 "</td>" +
                 "<td>" +
-                this.wordNumber +
+                     this.wordNumber +
                 "</td>" +
                 "<td>" +
-                this.wordCompare +
+                     this.wordPerMin +
+                "</td>" +
+                "<td>" +
+                      this.wordCompare +
                 "</td>" 
 
             );

@@ -61,24 +61,29 @@ app.listen(PORT, function () {
  app.post('/httpPage', function (request, response) {
 
      //Declare variable
-     const body = request.body;
-  // console.log(body);
-   //console.log(typeof (body));
+   const body = request.body;
+  console.log(body);
+   console.log(typeof (body));
 
    // Handle error events
    //if(!body.id){ return response.send('send id '); }
-   if(body.words == null){ return response.send('Send content'); }
+   if (body.words == null) { return response.send('Send content'); }
+   if (body.endTime == null) { return response.send('Check Input time'); }
 
    // Get value
    //const id = body.id;
    const contents = body.words;
-   const times = body.checkTime;
-   console.log(times);
-    // console.log(contents);
+   const endTime = body.endTime;
+   console.log(endTime);
+   console.log(contents);
 
      // Word count
      const temp = contents.split(' ');
      const countWord = temp.length;
+
+     // Word per time
+     const wordPerTime = Math.round(countWord / endTime * 6000, 2);
+     console.log(wordPerTime);
 
     // Word compare
      var  string =  contents;
@@ -94,6 +99,7 @@ app.listen(PORT, function () {
          }
          freqMap[w] += 1;
      });
+
 
      // find top frequent word
      var compare =0;
@@ -115,8 +121,8 @@ app.listen(PORT, function () {
    db.contents.save({
        time : saveTime,
        wordNumber: countWord,
-       wordPerMin: times,
-       wordCompare: compare,
+       wordPerMin: wordPerTime,
+       wordCompare: result,
        content: contents
    },  function (error, result) {
 
