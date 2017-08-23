@@ -8,7 +8,7 @@ const express = require('express');
 const request = require('request');
 const response = require('response');
 
-var $ = require('jquery');
+//var $ = require('jquery');
 
 
 
@@ -19,10 +19,9 @@ const db = mongojs('node', ['contents']);
 
 //Check db connection
 db.contents.find(function (error,results) {
-     console.log(results);
-  //  console.log(typeof(results));
+     console.log(results);  
 var myJson = JSON.stringify(results);
-   // console.log(typeof(myJson));
+   
 
 });
 
@@ -62,8 +61,8 @@ app.listen(PORT, function () {
 
      //Declare variable
    const body = request.body;
-  console.log(body);
-   console.log(typeof (body));
+  //console.log(body);
+  // console.log(typeof (body));
 
    // Handle error events
    //if(!body.id){ return response.send('send id '); }
@@ -74,8 +73,8 @@ app.listen(PORT, function () {
    //const id = body.id;
    const contents = body.words;
    const endTime = body.endTime;
-   console.log(endTime);
-   console.log(contents);
+   //console.log(endTime);
+   //console.log(contents);
 
      // Word count
      const temp = contents.split(' ');
@@ -83,7 +82,7 @@ app.listen(PORT, function () {
 
      // Word per time
      const wordPerTime = Math.round(countWord / endTime * 6000, 2);
-     console.log(wordPerTime);
+    // console.log(wordPerTime);
 
     // Word compare
      var  string =  contents;
@@ -148,16 +147,19 @@ app.listen(PORT, function () {
 
  app.get('/httpPage/:id', function (request, response) {
    // Declare variable
-    const id = request.params.id;
-
+     console.log('get data from client!!!!!!!!!!!!!!!');
+     const id = request.params.id;
+     //const id = request.query.id;
+     console.log(id);
     db.contents.findOne({
         _id: mongojs.ObjectId(id)
     }, function (error, result) {
        if(error){
            response.send('Error');
        } else {
-           console.log(result.toString('utf8'));
-           response.send(result);
+           var myJson = JSON.stringify(result);
+           console.log(myJson);
+           response.send(myJson);
 
        }
     });

@@ -1,38 +1,3 @@
-
-//$(document).on("pagebeforeshow", "#words", function() {
-//    console.log("in page home");
-//    // .ajax call
-//    $.ajax({
-//        type: "POST", url: "/httpPage", dataType: "json", success: getData
-//    });
-
-//    function getData(data) {
-//        console.log("in getData");
-//        $('#checkWords').html(data  + '/400');
-//        console.log(data);
-//         }
-
-//   $(function() {
-//        $.getJSON("/htmlPage", function(){
-//            console.log("success");
-//        }).done(function(data){
-//            $.each(data, function(i, item){
-//                console.log(data.wordCount);
-//            });
-//        });
-//    });
-
-
-//});
-
-//window.onload=function () {
-//    setInterval(function () {
-//        var e = window.event;
-//        x = e.screenX;
-//        y = e.screenY;
-//        console.log(x + y);
-//    }, 1000);
-
    
 var mousePos;
 var xPosion = [];
@@ -65,6 +30,29 @@ function getMousePosition() {
 }
 
 
+function handleScroll() {
+    $('#scroll-detect').on("scroll", function () {
+
+        $(window).scroll().st
+
+    });
+
+
+
+
+    //$('#scroll-detect').on("scroll", function () {
+    //    var scrollHeight = $(document).height();
+    //    var scrollPosition = $('#scroll-detect').height() + $('#scroll-detect').scrollTop();
+    //    if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
+    //        // when scroll to bottom of the page
+
+    //        console.log('The scroll reach bottom!!');
+    //    }
+       
+    //});
+}
+
+
 
 var timer = 0;
 var checkInputTimer = 0;
@@ -74,62 +62,61 @@ var submitContents;
 var reciveCode;
 
 //
-$(document).ready(function () {
-
-    
+$(document).ready(function () {    
 
     $('#textArea').on('keyup', function () {
         $(this).css('height', 'auto');
         $(this).height(this.scrollHeight);
     });
 
-  
+   
+    handleScroll();
 
-    $(function wordCount() {
+    //$(function wordCount() {
 
-        $('#textArea').keyup(function (e) {
-            var content = $(this).val().split(' ');
+    //    $('#textArea').keyup(function (e) {
+    //        var content = $(this).val().split(' ');
 
-            $('#counter').html(content.length - 1 + '/300');
-        });
-        $('#content').keyup();
+    //        $('#counter').html(content.length - 1 + '/300');
+    //    });
+    //    $('#content').keyup();
 
-        //return content;
-    });
+        
+    //});
 
-    // find top frequent word
-    $(function checkWords() {
-        $('#textArea').keyup(function (e) {
-            var string = $(this).val();
+    //// find top frequent word
+    //$(function checkWords() {
+    //    $('#textArea').keyup(function (e) {
+    //        var string = $(this).val();
 
-            var words = string.replace(/[.]/g, '').split(/\s/); // word split
+    //        var words = string.replace(/[.]/g, '').split(/\s/); // word split
 
-            var freqMap = {};
+    //        var freqMap = {};
 
-            // count same word
-            words.forEach(function (w) {
-                if (!freqMap[w]) {
-                    freqMap[w] = 0;
-                }
-                freqMap[w] += 1;
-            });
+    //        // count same word
+    //        words.forEach(function (w) {
+    //            if (!freqMap[w]) {
+    //                freqMap[w] = 0;
+    //            }
+    //            freqMap[w] += 1;
+    //        });
 
-            // find top frequent word
-            var compare = 0;
-            for (var k in freqMap) {
-                if (freqMap.hasOwnProperty(k)) {
-                    if (compare < freqMap[k]) {
-                        result = k;
-                        compare = freqMap[k];
-                        $('#checkWords').html(compare + '/300');
-                        $('#checkWords').keyup();
-                    }
-                }
-            }
-        });
+    //        // find top frequent word
+    //        var compare = 0;
+    //        for (var k in freqMap) {
+    //            if (freqMap.hasOwnProperty(k)) {
+    //                if (compare < freqMap[k]) {
+    //                    result = k;
+    //                    compare = freqMap[k];
+    //                    $('#checkWords').html(compare + '/300');
+    //                    $('#checkWords').keyup();
+    //                }
+    //            }
+    //        }
+    //    });
 
-        //  return result;
-    });
+       
+    //});
 
   
 
@@ -168,9 +155,31 @@ $(document).ready(function () {
                 }
 
             });
-            // return false;
+           
             getCurretData();
+    });
+
+
+    
+
+    $('input[name="load"]').click(function () {
+       
+        $.ajax({
+            type: 'GET',           
+            url: '/httpPage/' + $('input[name="code-in"]').val(),
+            success: function (dbData) {
+                if (dbData == null || dbData == "")
+                    alert("There is no a such code");                
+                var textContent = JSON.parse(dbData);
+                $('#textArea').val(textContent.content);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+
         });
+    });
+
           
 });/**
  * Created by GiL on 2017-08-19.
@@ -218,7 +227,6 @@ function checkTimer() {
 
     checkWordTime = setInterval(function () {
         checkInputTimer += 1;
-
     }, 1000);
 }
 
@@ -231,25 +239,6 @@ function getCode(data) {
 
 }
 
-$("#load").click(function () {
-
-
-    console.log("load==>"+$('input[name="code-in"]').val());
-    $.ajax({
-        type: 'GET',
-        data: {
-            'codeIn': $('input[name="code-in"]').val()           
-        },
-        url: '/httpPage',
-        success: function (dbData) {
-            console.log(dbData);          
-        },
-        error: function (error) {
-            console.log(error);
-        }
-
-    });
-});
 
 
 function getCurretData() {
@@ -266,6 +255,8 @@ function getCurretData() {
         }
 
     });
+
+
 
     function makeList(dbData) {
 
