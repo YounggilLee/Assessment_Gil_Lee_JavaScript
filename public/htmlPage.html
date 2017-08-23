@@ -3,47 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Problem A_Gil_Lee</title>
+    <title>Assessment_Gil_Lee</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/Main.css">
     <script src="js/jquery-3.2.1.js"></script>
-    <script src="js/main.js"></script>
-
+    <script src="js/main.js"></script>  
+   
 </head>
 
 <body>
-<section id="words">
-    <div id="table-wrapper">
-        <div id="table-scroll">
-            <table>
-                <thead>
-                <tr>
-                    <th><span class="text">Time</span></th>
-                    <th><span class="text">Word Count</span></th>
-                    <th><span class="text">Word Per Minute</span></th>
-                    <th><span class="text">Top frequent Word</span></th>
-                </tr>
-                </thead>
-                <tbody></tbody>
-              
-            </table>
+    <section id="words">
+        <div id="table-wrapper">
+            <div id="table-scroll">
+                <table>                   
+                    <thead>
+                        <tr>
+                            <th><span class="text">Time</span></th>
+                            <th><span class="text">Word Count</span></th>
+                            <th><span class="text">Word Per Minute</span></th>
+                            <th><span class="text">Top Frequent Word</span></th>
+                        </tr>
+                    </thead>
+
+                    <tbody></tbody>
+
+                </table>
+            </div>
+        </div>
+        <div id="text-wrapper">
+            <form id='share'>
+                <textarea id="textArea" name="words" cols="30" rows="10" placeholder="Being Typing Here..."></textarea>
+                <input type="submit" value="Share">
+                <input type="text" id="code-out" value=""  name="code-out" readonly>
+                <input type="button" value="load" id="load" name="load">
+                <input type="text" id="code-in" name="code-in" placeholder="code..">
+            </form>
 
         </div>
-    </div>
-    <div id="text-wrapper">      
-           <form id ='share'>
-                <textarea id="textArea" name="words" cols="30" rows="10"  placeholder="Being Typing Here..."></textarea>
-                <input type="submit" value="Share">
-                <input type="text" value="" name="code-out" readonly>
-                <input type="button" value="load" id="load" name="load">
-                <input type="text" id="code-in" name="code-in" placeholder="code..">               
-           </form>
-      
-    </div>
 
-</section>
+    </section>
 
-<script src="js/jquery-3.2.1.js"></script>
-<script src="js/bootstrap.js"></script>
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/bootstrap.js"></script>
 </body>
 </html>

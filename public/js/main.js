@@ -1,65 +1,7 @@
-   
+
 var mousePos;
 var xPosion = [];
 var yPosion = [];
-document.onmousemove = handleMouseMove;
-//setInterval(getMousePosition, 500); // setInterval repeats every X ms
-
-function handleMouseMove(event) {
-    var dot, eventDoc, doc, body, pageX, pageY;
-
-    event = event || window.event; // IE-ism
-
-    mousePos = {
-        x: event.pageX,
-        y: event.pageY
-    };
-}
-function getMousePosition() {
-    var pos = mousePos;
-    if (!pos) {
-        // We haven't seen any movement yet
-    }
-    else {
-       
-        xPosion.push(pos.x);
-        yPosion.push(pos.y);
-        // Use pos.x and pos.y       
-        console.log(xPosion + "-------------" +  yPosion);
-    }
-}
-
-
-function handleScroll() {   
-
-    $('#table-scroll').on('mousewheel DOMMouseScroll', function (e) {
-      
-        console.log('scroll!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-        var scrollEvent = e.originalEvent;
-        var delta = scrollEvent.wheelDelta || scrollEvent.detail;
-
-        this.scrollTop += (delta < 0 ? 1 : -1) * 30;
-        e.preventDefault();
-
-    });
-
-
-
-
-    //$('#scroll-detect').on("scroll", function () {
-    //    var scrollHeight = $(document).height();
-    //    var scrollPosition = $('#scroll-detect').height() + $('#scroll-detect').scrollTop();
-    //    if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
-    //        // when scroll to bottom of the page
-
-    //        console.log('The scroll reach bottom!!');
-    //    }
-       
-    //});
-}
-
-
-
 var timer = 0;
 var checkInputTimer = 0;
 var secInrease;
@@ -67,115 +9,65 @@ var checkWordTime;
 var submitContents;
 var reciveCode;
 
-//
-$(document).ready(function () {    
+document.onmousemove = handleMouseMove;
+
+// setInterval repeats every X ms
+setInterval(getMousePosition, 500);
+
+$(document).ready(function () {
+    
+    autoExpendTextArea();
+    
+    preventScroll();
 
     $('#textArea').on('keyup', function () {
-        $(this).css('height', 'auto');
-        $(this).height(this.scrollHeight);
-    });
-    
-   
-    handleScroll();
 
-    //$(function wordCount() {
-
-    //    $('#textArea').keyup(function (e) {
-    //        var content = $(this).val().split(' ');
-
-    //        $('#counter').html(content.length - 1 + '/300');
-    //    });
-    //    $('#content').keyup();
-
-        
-    //});
-
-    //// find top frequent word
-    //$(function checkWords() {
-    //    $('#textArea').keyup(function (e) {
-    //        var string = $(this).val();
-
-    //        var words = string.replace(/[.]/g, '').split(/\s/); // word split
-
-    //        var freqMap = {};
-
-    //        // count same word
-    //        words.forEach(function (w) {
-    //            if (!freqMap[w]) {
-    //                freqMap[w] = 0;
-    //            }
-    //            freqMap[w] += 1;
-    //        });
-
-    //        // find top frequent word
-    //        var compare = 0;
-    //        for (var k in freqMap) {
-    //            if (freqMap.hasOwnProperty(k)) {
-    //                if (compare < freqMap[k]) {
-    //                    result = k;
-    //                    compare = freqMap[k];
-    //                    $('#checkWords').html(compare + '/300');
-    //                    $('#checkWords').keyup();
-    //                }
-    //            }
-    //        }
-    //    });
-
-       
-    //});
-
-  
-
-    
-
-    $('#textArea').on('keyup', function () {
-        console.log('key start!!!!!')
+        //This console is for checking key event
+        console.log('key event!!!!!')
         timer = 0;
         clearInterval(secInrease);
         setTimer();
         checkTimer();
     });
 
-  
-           //Share data  
+
+    //This function is for generate code to share data  
     $('#share').submit(function (e) {
 
-              clearInterval(secInrease);
-              clearInterval(checkWordTime);
-            e.preventDefault();
-            var contentData = $('#textArea').val();
+        clearInterval(secInrease);
+        clearInterval(checkWordTime);
+        e.preventDefault();
+        var contentData = $('#textArea').val();
 
-            $.ajax({
-                type: 'POST',
-                data: {
-                    'words': contentData,
-                    'endTime': checkInputTimer
-                },
-                url: '/httpPage',
-                success: function (dbData) {
-                    console.log(dbData);
-                    getCode(dbData);
-                },
-                error: function (error) {
-                    console.log(error);
-                }
+        $.ajax({
+            type: 'POST',
+            data: {
+                'words': contentData,
+                'endTime': checkInputTimer
+            },
+            url: '/httpPage',
+            success: function (dbData) {
 
-            });
-           
-            getCurretData();
+                getCode(dbData);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+
+        });
+
+        getCurretData();
     });
 
-
-    
-
+    // This function is for get data from database in server
     $('input[name="load"]').click(function () {
-       
+
         $.ajax({
-            type: 'GET',           
+            type: 'GET',
             url: '/httpPage/' + $('input[name="code-in"]').val(),
             success: function (dbData) {
                 if (dbData == null || dbData == "")
-                    alert("There is no a such code");                
+                    alert("There is no a such code");
                 var textContent = JSON.parse(dbData);
                 $('#textArea').val(textContent.content);
             },
@@ -184,28 +76,81 @@ $(document).ready(function () {
             }
 
         });
-    });
+    });    
 
-          
 });/**
- * Created by GiL on 2017-08-19.
+ * End Ready function
  */
 
 
-// Set Timer
+// This function is for expending textArea automatically
+function autoExpendTextArea() {
+    $('#textArea').on('keyup', function () {
+        $(this).css('height', 'auto');
+        $(this).height(this.scrollHeight);
+    });
+}
+
+// This function is for checking position of mouse
+function handleMouseMove(event) {
+    var  pageX, pageY;
+
+    event = event || window.event; // IE-ism
+
+    mousePos = {
+        x: event.pageX,
+        y: event.pageY
+    };
+        
+}
+
+// This function is for storing mouse position to array list
+function getMousePosition() {
+    var pos = mousePos;
+    if (!pos) {
+        // We haven't seen any movement yet
+    }
+    else {
+        xPosion.push(pos.x);
+        yPosion.push(pos.y);       
+
+        // This console is for checking mouse event      
+        console.log("X= " + xPosion + "||" + "Y= " + yPosion);
+    }
+}
+
+// This function is for preveting  scroll event 
+function preventScroll() {
+
+    $('#table-scroll').on('mousewheel DOMMouseScroll', function (e) {
+
+        var scrollEvent = e.originalEvent;
+        var delta = scrollEvent.wheelDelta || scrollEvent.detail;
+
+        this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+        e.preventDefault();
+    });
+
+}
+
+// This function is for setting and checking Timer and then
+// send user data to server
 function setTimer() {
 
     secInrease = setInterval(function () {
         timer += 1;
+
+        //This cosole is for timer to check key event
         console.log(timer);
-        if (timer >= 5) {
+
+        if (timer >= 60) {
             clearInterval(secInrease);
             clearInterval(checkWordTime);
 
             var contentData = $('#textArea').val();
-           
+
             $.ajax({
-                type: 'POST',               
+                type: 'POST',
                 data: {
                     'words': contentData,
                     'endTime': checkInputTimer
@@ -221,6 +166,7 @@ function setTimer() {
                 }
 
             });
+
             getCurretData();
         }
 
@@ -228,7 +174,7 @@ function setTimer() {
 
 }
 
-
+// This function is for checking time
 function checkTimer() {
 
     checkWordTime = setInterval(function () {
@@ -236,24 +182,23 @@ function checkTimer() {
     }, 1000);
 }
 
+// This function is for getting share code from received data
 function getCode(data) {
     checkTimer = 0;
     clearInterval(checkWordTime);
-    console.log(JSON.parse(data));
+
     var jsonData = JSON.parse(data);
     $('input[name="code-out"]').val(jsonData._id);
 
 }
 
-
-
+// This function is for getting currentData from server
 function getCurretData() {
 
     $.ajax({
-        type: 'GET',        
+        type: 'GET',
         url: '/httpPage',
         success: function (dbData) {
-            console.log(dbData);
             makeList(dbData);
         },
         error: function (error) {
@@ -261,9 +206,8 @@ function getCurretData() {
         }
 
     });
-
-
-
+}
+    // This function is for putting data to the table in page
     function makeList(dbData) {
 
         $("tbody").empty();
@@ -272,26 +216,22 @@ function getCurretData() {
 
             $("tbody").append(
                 "<td>" +
-                    this.time +
+                this.time +
                 "</td>" +
                 "<td>" +
-                     this.wordNumber +
+                this.wordNumber +
                 "</td>" +
                 "<td>" +
-                     this.wordPerMin +
+                this.wordPerMin +
                 "</td>" +
                 "<td>" +
-                      this.wordCompare +
-                "</td>" 
-
+                this.wordCompare +
+                "</td>"
             );
 
             $("tbody").append("</tr>");
         });
-       
-         
-     
+
     }
 
-} 
-
+ 
