@@ -133,6 +133,7 @@ function preventScroll() {
 
 }
 
+
 // This function is for setting and checking Timer and then
 // send user data to server
 function setTimer() {

@@ -130,6 +130,7 @@ app.get('/httpPage/:id', function (request, response) {
             var myJson = JSON.stringify(result);
             console.log(myJson);
             response.send(myJson);
+
         }
     });
 });
