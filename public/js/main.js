@@ -30,10 +30,16 @@ function getMousePosition() {
 }
 
 
-function handleScroll() {
-    $('#scroll-detect').on("scroll", function () {
+function handleScroll() {   
 
-        $(window).scroll().st
+    $('#table-scroll').on('mousewheel DOMMouseScroll', function (e) {
+      
+        console.log('scroll!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        var scrollEvent = e.originalEvent;
+        var delta = scrollEvent.wheelDelta || scrollEvent.detail;
+
+        this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+        e.preventDefault();
 
     });
 
@@ -68,7 +74,7 @@ $(document).ready(function () {
         $(this).css('height', 'auto');
         $(this).height(this.scrollHeight);
     });
-
+    
    
     handleScroll();
 

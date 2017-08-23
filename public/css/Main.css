@@ -9,7 +9,7 @@ section {
 
 #table-wrapper {
 
-    position:relative;
+   
     width:80%;
     margin-right: auto;
     margin-left: auto;
@@ -18,17 +18,19 @@ section {
 }
 
 #table-scroll {
-    height:200px;
+    height:250px;
     overflow:auto;
 }
 
 
 
-#table-scroll th, td{
-    padding: 10px;
-    text-align: left;
-
-}
+    #table-scroll th, td {
+        padding: 10px;
+        text-align: left;
+        text-align: center;
+        border-bottom: 2px solid black;
+        border-right: 2px solid black;
+    }
 
 #table-scroll th{
     border-bottom: 2px solid black;
@@ -57,7 +59,7 @@ section {
 }
 
 textarea {
-    margin-top: 20px;
+    margin-top: 30px;
     width: 100%;
 }
 
@@ -89,4 +91,8 @@ textarea {
 #text-wrapper input[type=text] {
     border: none;
     min-height: 30px;
+}
+
+#code-in {
+
 }
