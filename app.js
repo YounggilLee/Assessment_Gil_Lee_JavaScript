@@ -10,7 +10,7 @@ const db = mongojs('node', ['contents']);
 
 //Check db connection
 db.contents.find(function (error, results) {
-    console.log(results);
+   
     var myJson = JSON.stringify(results);
 
 });
@@ -128,7 +128,7 @@ app.get('/httpPage/:id', function (request, response) {
             response.send('Error');
         } else {
             var myJson = JSON.stringify(result);
-            console.log(myJson);
+          
             response.send(myJson);
 
         }

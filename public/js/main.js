@@ -15,15 +15,16 @@ document.onmousemove = handleMouseMove;
 setInterval(getMousePosition, 500);
 
 $(document).ready(function () {
+
     
     autoExpendTextArea();
-    
+
     preventScroll();
 
     $('#textArea').on('keyup', function () {
 
-        //This console is for checking key event
-        console.log('key event!!!!!')
+        // [Console] Checking key event
+        console.log('key event is started!!!!!')
         timer = 0;
         clearInterval(secInrease);
         setTimer();
@@ -31,7 +32,7 @@ $(document).ready(function () {
     });
 
 
-    //This function is for generate code to share data  
+    // Generate code to share data  
     $('#share').submit(function (e) {
 
         clearInterval(secInrease);
@@ -59,7 +60,7 @@ $(document).ready(function () {
         getCurretData();
     });
 
-    // This function is for get data from database in server
+    // Get data from database in server
     $('input[name="load"]').click(function () {
 
         $.ajax({
@@ -83,7 +84,7 @@ $(document).ready(function () {
  */
 
 
-// This function is for expending textArea automatically
+// Expend textArea automatically
 function autoExpendTextArea() {
     $('#textArea').on('keyup', function () {
         $(this).css('height', 'auto');
@@ -91,7 +92,7 @@ function autoExpendTextArea() {
     });
 }
 
-// This function is for checking position of mouse
+// Check position of mouse
 function handleMouseMove(event) {
     var  pageX, pageY;
 
@@ -104,7 +105,7 @@ function handleMouseMove(event) {
         
 }
 
-// This function is for storing mouse position to array list
+// Store mouse position to array list
 function getMousePosition() {
     var pos = mousePos;
     if (!pos) {
@@ -114,12 +115,12 @@ function getMousePosition() {
         xPosion.push(pos.x);
         yPosion.push(pos.y);       
 
-        // This console is for checking mouse event      
-        console.log("X= " + xPosion + "||" + "Y= " + yPosion);
+        // [Console] Checking mouse event      
+       // console.log("X= " + xPosion + "||" + "Y= " + yPosion);
     }
 }
 
-// This function is for preveting  scroll event 
+// Preveting  scroll event 
 function preventScroll() {
 
     $('#table-scroll').on('mousewheel DOMMouseScroll', function (e) {
@@ -134,14 +135,13 @@ function preventScroll() {
 }
 
 
-// This function is for setting and checking Timer and then
-// send user data to server
+// Set(Check) timer and send user data to server
 function setTimer() {
 
     secInrease = setInterval(function () {
         timer += 1;
 
-        //This cosole is for timer to check key event
+        // [Cosole] is for timer to check key event
         console.log(timer);
 
         if (timer >= 60) {
@@ -175,7 +175,7 @@ function setTimer() {
 
 }
 
-// This function is for checking time
+// Check time
 function checkTimer() {
 
     checkWordTime = setInterval(function () {
@@ -183,7 +183,7 @@ function checkTimer() {
     }, 1000);
 }
 
-// This function is for getting share code from received data
+// Get the share code from received data
 function getCode(data) {
     checkTimer = 0;
     clearInterval(checkWordTime);
@@ -193,7 +193,7 @@ function getCode(data) {
 
 }
 
-// This function is for getting currentData from server
+// Get currentData from server
 function getCurretData() {
 
     $.ajax({
@@ -208,7 +208,7 @@ function getCurretData() {
 
     });
 }
-    // This function is for putting data to the table in page
+    // Put data to the table in page
     function makeList(dbData) {
 
         $("tbody").empty();
