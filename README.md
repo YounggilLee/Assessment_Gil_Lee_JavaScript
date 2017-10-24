@@ -9,5 +9,5 @@ Programming Language : JavaScript.
 JavaScript Library : JQuery.  
 Server  : Node.js.  
 Framwork: Express (middleware:body-parser, mongojs).  
-Database: mongoDB.  
-
+Database: mongoDB.
+Data Request: Ajax, RESTful
