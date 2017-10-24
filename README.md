@@ -1,6 +1,9 @@
-# Assessment_Gil_Lee_JavaScript
+# Reaearching Web Page
 
-It would be my pleasure to show you briefly which tools I use for the assessment.  
+---
+The perpose of this web page to get information for reseraching customers' pattern 
+---
+It would be my pleasure to show you briefly which tools I use 
 
 Programming Language : JavaScript.  
 JavaScript Library : JQuery.  
